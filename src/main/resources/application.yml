@@ -9,12 +9,24 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yml
     enabled: true
 
-  logging:
-    level:
-      org:
-        jooq: INFO
-        liquibase: INFO
-      root: INFO
+management:
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoint:
+    health:
+      group:
+        readiness:
+          include: diskSpace, readinessState
+      show-details: "ALWAYS"
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
 
 jwt:
   secret: ${JWT_SECRET}

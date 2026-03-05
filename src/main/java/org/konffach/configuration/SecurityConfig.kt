@@ -26,6 +26,7 @@ open class SecurityConfig(
             .authorizeHttpRequests {
                 it
                     .requestMatchers("/api/users/**").permitAll()
+                    .requestMatchers("/actuator/**").permitAll()
                     .requestMatchers("/ws/**").permitAll()
                     .anyRequest().authenticated()
             }

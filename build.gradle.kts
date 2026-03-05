@@ -33,6 +33,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
 
     // jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")

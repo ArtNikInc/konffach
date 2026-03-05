@@ -8,14 +8,32 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yml
     enabled: true
-
-jwt:
-  secret: 84105870118808335982770681620991
-  expiration: 6400
-
   logging:
     level:
       org:
         jooq: DEBUG
         liquibase: INFO
       root: INFO
+
+management:
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoint:
+    health:
+      group:
+        readiness:
+          include: diskSpace, readinessState
+      show-details: "ALWAYS"
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+jwt:
+  secret: 84105870118808335982770681620991
+  expiration: 6400
