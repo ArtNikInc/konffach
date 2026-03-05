@@ -13,4 +13,3 @@ run:
   jarName: konfach-1.0-SNAPSHOT.jar
   persistenceMount: /data
   containerPort: "80"
-
