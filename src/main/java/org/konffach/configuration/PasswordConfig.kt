@@ -1,15 +1,15 @@
 package org.konffach.configuration
 
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Component
 
-@Configuration
-open class PasswordConfig {
+@Component
+class PasswordConfig {
 
     @Bean
-    open fun passwordEncoder(): PasswordEncoder {
+    fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
 }

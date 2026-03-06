@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration
 import javax.sql.DataSource
 
 @Configuration
-open class JooqConfig {
+class JooqConfig {
 
     @Bean
-    open fun getDsl(dataSource: DataSource): DSLContext = DSL.using(dataSource, SQLDialect.POSTGRES, getDslSettings());
+    fun getDsl(dataSource: DataSource): DSLContext = DSL.using(dataSource, SQLDialect.POSTGRES, getDslSettings());
 
     private fun getDslSettings(): Settings = Settings().withRenderNameCase(RenderNameCase.LOWER);
 }

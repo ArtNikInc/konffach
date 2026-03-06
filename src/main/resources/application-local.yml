@@ -35,5 +35,7 @@ management:
         include: health
 
 jwt:
-  secret: 84105870118808335982770681620991
-  expiration: 6400
+  accessSecret: 84105870118808335982770681620991
+  accessExpiration: 6400
+  refreshSecret: 84105870118808335982770681620991
+  refreshExpiration: 64800

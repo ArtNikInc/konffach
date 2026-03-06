@@ -5,15 +5,14 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
-class JwtAuthenticationFilter(
+ class JwtAuthenticationFilter(
     private val jwtService: JwtService,
-    private val userDetailsService: UserDetailsService
+    private val userDetailsService: CustomUserDetailsService
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -21,7 +20,7 @@ class JwtAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        if (request.requestURI.startsWith("/api/auth/")) {
+        if (request.requestURI.startsWith("/api/users/login") or request.requestURI.startsWith("/api/users/register")) {
             filterChain.doFilter(request, response)
             return
         }

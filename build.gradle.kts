@@ -5,6 +5,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.2.0"
     id("io.spring.dependency-management") version "1.1.4"
+    id("org.jetbrains.kotlin.plugin.spring") version "2.3.10"
     id("nu.studer.jooq") version "8.2"
     kotlin("kapt") version "1.9.20"
 
@@ -34,6 +35,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")

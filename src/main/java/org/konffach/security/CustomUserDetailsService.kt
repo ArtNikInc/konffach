@@ -1,20 +1,20 @@
 package org.konffach.security
 
 import org.konffach.service.UserService
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class CustomUserDetailsService(
     private val userService: UserService
 ) : UserDetailsService {
-    
+
     override fun loadUserByUsername(username: String): UserDetails {
-        // Поиск по username или email
         val user = userService.findByLogin(username)
-        
-        return org.springframework.security.core.userdetails.User.builder()
+
+        return User.builder()
             .username(user.login)
             .password(user.password)
             .accountExpired(false)

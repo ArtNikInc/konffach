@@ -1,11 +1,12 @@
 package org.konffach.controller
 
-import jakarta.validation.Valid
+import org.konffach.dto.request.RefreshTokenRequest
 import org.konffach.dto.request.UserRequest
 import org.konffach.dto.response.JwtResponse
 import org.konffach.service.UserService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -18,4 +19,10 @@ class UserController(private val userService: UserService) {
 
     @PostMapping("/login")
     fun login(@RequestBody request: UserRequest): JwtResponse = userService.login(request)
+
+    @PostMapping("/refresh")
+    fun refresh(
+        @RequestBody request: RefreshTokenRequest,
+        @RequestHeader("Authorization") jwtToken: String
+    ): JwtResponse = userService.refresh(request, jwtToken.substring(7))
 }

@@ -9,10 +9,10 @@ import java.security.KeyPairGenerator
 import java.security.interfaces.RSAPublicKey
 
 @Configuration
-open class JwtConfig {
+class JwtConfig {
 
     @Bean
-    open fun jwtDecoder(): JwtDecoder {
+    fun jwtDecoder(): JwtDecoder {
         val keyPair = generateRsaKey()
         return NimbusJwtDecoder.withPublicKey(keyPair.public as RSAPublicKey).build()
     }

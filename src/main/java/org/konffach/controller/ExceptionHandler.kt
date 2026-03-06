@@ -1,6 +1,7 @@
 package org.konffach.controller
 
 import org.konffach.exception.LoginIncorrectException
+import org.konffach.exception.RefreshTokenException
 import org.konffach.exception.UserIncorrectException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -43,6 +44,15 @@ class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
             mapOf(
                 "error" to (ex.message ?: "User exception")
+            )
+        )
+    }
+
+    @ExceptionHandler(RefreshTokenException::class)
+    fun refreshTokenException(ex: RefreshTokenException): ResponseEntity<Map<String, Any>> {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+            mapOf(
+                "error" to (ex.message ?: "Token exception")
             )
         )
     }

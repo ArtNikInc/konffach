@@ -1,6 +1,7 @@
 package org.konffach.service
 
 import konffach.generated.jooq.package_.tables.records.UsersRecord
+import org.konffach.dto.request.RefreshTokenRequest
 import org.konffach.dto.request.UserRequest
 import org.konffach.dto.response.JwtResponse
 import org.konffach.exception.LoginIncorrectException
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class UserService(
+class UserService(
     private val userRepository: UserRepository,
     private val userMapper: UserMapper,
     private val passwordEncoder: PasswordEncoder,
@@ -23,28 +24,34 @@ open class UserService(
     private val userIncorrectMsg: String = "Incorrect login or password"
     private val loginAlready: String = "This user login is already in use"
 
-
+    @Transactional(readOnly = true)
     fun findByLogin(login: String): UsersRecord = userRepository.findByLogin(login)
         ?: throw UserIncorrectException(userIncorrectMsg)
 
     @Transactional
-    open fun register(userRequest: UserRequest): JwtResponse {
+    fun register(userRequest: UserRequest): JwtResponse {
         if (userRepository.isUserExist(userRequest.login)) {
             throw LoginIncorrectException(loginAlready);
         }
         val updatedUser = userRequest.copy(password = passwordEncoder.encode(userRequest.password))
         val user: UsersRecord = userMapper.mapToEntity(updatedUser)
         userRepository.save(user)
-        return jwtService.generateToken(user)
+        return jwtService.generatePair(user)
     }
 
-    @Transactional(readOnly = true)
-    open fun login(userRequest: UserRequest): JwtResponse {
+    @Transactional
+    fun login(userRequest: UserRequest): JwtResponse {
         val user: UsersRecord = findByLogin(userRequest.login)
         if (!passwordEncoder.matches(userRequest.password, user.password)) {
             throw UserIncorrectException(userIncorrectMsg)
         }
 
-        return jwtService.generateToken(user)
+        return jwtService.generatePair(user)
+    }
+
+    @Transactional
+    fun refresh(refreshTokenRequest: RefreshTokenRequest, accessToken: String): JwtResponse {
+        val user: UsersRecord = findByLogin(jwtService.extractUsername(accessToken))
+        return jwtService.refreshToken(user, refreshTokenRequest)
     }
 }
