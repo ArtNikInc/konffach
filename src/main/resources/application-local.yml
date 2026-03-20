@@ -1,0 +1,41 @@
+spring:
+  port: 8079
+  datasource:
+    url: jdbc:postgresql://localhost:5432/konffach
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yml
+    enabled: true
+  logging:
+    level:
+      org:
+        jooq: DEBUG
+        liquibase: INFO
+      root: INFO
+
+management:
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoint:
+    health:
+      group:
+        readiness:
+          include: diskSpace, readinessState
+      show-details: "ALWAYS"
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+jwt:
+  accessSecret: 84105870118808335982770681620991
+  accessExpiration: 6400
+  refreshSecret: 84105870118808335982770681620991
+  refreshExpiration: 64800

@@ -1,0 +1,35 @@
+spring:
+  port: ${PORT:8080}
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yml
+    enabled: true
+
+management:
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoint:
+    health:
+      group:
+        readiness:
+          include: diskSpace, readinessState
+      show-details: "ALWAYS"
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+jwt:
+  accessSecret: ${JWT_SECRET}
+  accessExpiration: ${JWT_EXPIRATION:6400}
+  refreshSecret: ${REFRESH_SECRET}
+  refreshExpiration: ${REFRESH_EXPIRATION:64800}
