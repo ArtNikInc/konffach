@@ -10,16 +10,19 @@ import java.util.UUID
 class UserRepository(dls: DSLContext) : AbstractRepository(dls) {
 
     fun save(user: UsersRecord) {
-        dls.insertInto(USERS)
+        dsl.insertInto(USERS)
             .set(USERS.ID, UUID.randomUUID())
             .set(USERS.LOGIN, user.login)
             .set(USERS.PASSWORD, user.password)
             .execute()
     }
 
-    fun findByLogin(login: String): UsersRecord? = dls.selectFrom(USERS)
+    fun findByLogin(login: String): UsersRecord? = dsl.selectFrom(USERS)
         .where(USERS.LOGIN.eq(login))
         .fetchOne()
 
-    fun isUserExist(login: String): Boolean = dls.fetchExists(USERS.where(USERS.LOGIN.eq(login)))
+    fun isUserExist(login: String): Boolean = dsl.fetchExists(USERS.where(USERS.LOGIN.eq(login)))
+
+    fun getAllWithoutUser(user: UsersRecord): List<UsersRecord> = dsl.selectFrom(USERS)
+        .fetch()
 }

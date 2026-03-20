@@ -1,4 +1,4 @@
-package org.konffach.service
+package org.konffach.service.user
 
 import konffach.generated.jooq.package_.tables.records.UsersRecord
 import org.konffach.dto.request.RefreshTokenRequest

@@ -1,9 +1,9 @@
-package org.konffach.controller
+package org.konffach.controller.user
 
 import org.konffach.dto.request.RefreshTokenRequest
 import org.konffach.dto.request.UserRequest
 import org.konffach.dto.response.JwtResponse
-import org.konffach.service.UserService
+import org.konffach.service.user.UserService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader

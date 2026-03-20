@@ -7,5 +7,5 @@ import org.mapstruct.Mapper
 @Mapper
 interface UserMapper {
 
-    fun mapToEntity(note: UserRequest): UsersRecord
+    fun mapToEntity(user: UserRequest): UsersRecord
 }

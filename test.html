@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket STOMP Test</title>
+</head>
+<body>
+    <h1>WebSocket STOMP Test</h1>
+    <p>Open browser console (F12) to see output.</p>
+    <button onclick="runTest()">Run Test</button>
+
+    <script>
+        function runTest() {
+            const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJMcmFuZ2VyMTIzIiwiaWF0IjoxNzczOTM3NDkxLCJleHAiOjE3NzM5NDM4OTF9.xcf00VEVCqdxbYZcfchbvN_JLeELh0M-1PD13YzsLTo';
+
+            const ws = new WebSocket('ws://localhost:8080/ws', ['v12.stomp', 'v11.stomp', 'v10.stomp']);
+
+            ws.onopen = () => {
+                console.log('✅ WebSocket connected with STOMP subprotocol');
+
+                const connectFrame =
+                    'CONNECT\n' +
+                    'Authorization: Bearer ' + token + '\n' +
+                    'accept-version:1.2\n' +
+                    'host:localhost\n' +
+                    '\n' +   // пустая строка
+                    '\0';    // нулевой байт
+
+                ws.send(connectFrame);
+                console.log('📤 CONNECT sent');
+            };
+
+            ws.onmessage = (event) => {
+                console.log('📥 Received:', event.data);
+
+                if (event.data.startsWith('CONNECTED')) {
+                    console.log('✅ STOMP connected!');
+
+                    const subscribeFrame =
+                        'SUBSCRIBE\n' +
+                        'Authorization: Bearer ' + token + '\n' +
+                        'destination:/user/Lranger123/queue/chat\n' +
+                        'id:sub-0\n' +
+                        '\n' +
+                        '\0';
+                    ws.send(subscribeFrame);
+                    console.log('📤 SUBSCRIBE sent');
+                    }
+            };
+
+            ws.onerror = (err) => {
+                console.error('❌ WebSocket error:', err);
+            };
+
+            ws.onclose = (event) => {
+                console.log('🔒 WebSocket closed:', event.code, event.reason);
+            };
+        }
+    </script>
+</body>
+</html>
