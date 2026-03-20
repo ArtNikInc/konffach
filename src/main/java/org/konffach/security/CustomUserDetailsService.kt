@@ -1,7 +1,7 @@
 package org.konffach.security
 
-import org.konffach.service.UserService
-import org.springframework.security.core.userdetails.User
+import org.konffach.persistance.model.CustomUserDetails
+import org.konffach.service.user.UserService
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
@@ -14,13 +14,6 @@ class CustomUserDetailsService(
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userService.findByLogin(username)
 
-        return User.builder()
-            .username(user.login)
-            .password(user.password)
-            .accountExpired(false)
-            .accountLocked(false)
-            .credentialsExpired(false)
-            .disabled(false)
-            .build()
+        return CustomUserDetails(user)
     }
 }
