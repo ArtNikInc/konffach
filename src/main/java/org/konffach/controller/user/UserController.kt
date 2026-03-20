@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/users")
-class UserController(private val userService: UserService) {
+class UserController(private val userService: UserService) : UserApi {
 
     @PostMapping("/register")
-    fun register(@RequestBody request: UserRequest): JwtResponse = userService.register(request)
+    override fun register(@RequestBody request: UserRequest): JwtResponse = userService.register(request)
 
     @PostMapping("/login")
-    fun login(@RequestBody request: UserRequest): JwtResponse = userService.login(request)
+    override fun login(@RequestBody request: UserRequest): JwtResponse = userService.login(request)
 
     @PostMapping("/refresh")
-    fun refresh(
+    override fun refresh(
         @RequestBody request: RefreshTokenRequest,
         @RequestHeader("Authorization") jwtToken: String
     ): JwtResponse = userService.refresh(request, jwtToken.substring(7))
