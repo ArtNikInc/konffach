@@ -21,7 +21,9 @@ class JwtAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        if (request.requestURI.startsWith("/api/users") or request.requestURI.startsWith("/ws")) {
+        if (request.requestURI.startsWith("/api/users") or request.requestURI.startsWith("/ws")
+            or request.requestURI.startsWith("/swagger-ui") or request.requestURI.startsWith("/v3")
+        ) {
             filterChain.doFilter(request, response)
             return
         }

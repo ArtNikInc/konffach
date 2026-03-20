@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/messages")
 class MessageController(
     private val chatService: ChatService
-) {
+) : MessageApi {
 
     private val logger = KotlinLogging.logger {}
 
     @PostMapping("")
-    fun sendMessage(
+    override fun sendMessage(
         @RequestBody message: MessageRequest,
         @AuthenticationPrincipal userDetails: CustomUserDetails
     ) {

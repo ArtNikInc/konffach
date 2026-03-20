@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/chat")
-class ChatController(private val chatService: ChatService) {
+class ChatController(private val chatService: ChatService) : ChatApi{
 
     @PostMapping("/history")
-    fun getChatHistory(): List<MessageResponse> = chatService.getHistory()
+    override fun getChatHistory(): List<MessageResponse> = chatService.getHistory()
 }
